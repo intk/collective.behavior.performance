@@ -53,8 +53,8 @@ class IPerformance(model.Schema):
     model.fieldset(
         'performance',
         label=_(u'Performance fields', default=u'Performance fields'),
-        fields=['performance_id', 'season', 'eventType', 'eventGenre', 'performance_title', 'subtitle', 'tags', 'facilityCode', 'performance_date',
-        'performance_start', 'performance_end', 'performanceStatus', 'onsale', 'startOnlineSalesDate', 'endOnlineSalesDate', 'statusMessage', 'percentageTaken'],
+        fields=['performance_id', 'season', 'eventType', 'performance_title', 'subtitle', 'tags', 'facilityCode',
+        'performanceStatus', 'onsale', 'startOnlineSalesDate', 'endOnlineSalesDate', 'statusMessage', 'percentageTaken', 'price'],
     )
 
     performance_id = schema.TextLine(
@@ -72,11 +72,6 @@ class IPerformance(model.Schema):
         required=False
     )
 
-    eventGenre = schema.TextLine(
-        title=_(u'Event genre', default=u'Event genre'),
-        required=False
-    )
-
     performance_title = schema.TextLine(
         title=_(u'Title', default=u'Title'),
         required=False
@@ -87,28 +82,24 @@ class IPerformance(model.Schema):
         required=False
     )
 
-    tags = schema.TextLine(
+    tags = schema.Tuple(
         title=_(u'Tags', default=u'Tags'),
-        required=False
+        description=_(
+            u'Tags',
+            default=u'Tags'
+        ),
+        value_type=schema.TextLine(),
+        required=False,
+        missing_value=(),
+    )
+    directives.widget(
+        'tags',
+        AjaxSelectFieldWidget,
+        vocabulary='plone.app.vocabularies.Keywords'
     )
 
     facilityCode = schema.TextLine(
         title=_(u'Facility', default=u'Facility'),
-        required=False
-    )
-
-    performance_date = schema.TextLine(
-        title=_(u'Date', default=u'Date'),
-        required=False
-    )
-
-    performance_start = schema.TextLine(
-        title=_(u'Start', default=u'Start'),
-        required=False
-    )
-
-    performance_end = schema.TextLine(
-        title=_(u'End', default=u'End'),
         required=False
     )
 
@@ -117,9 +108,17 @@ class IPerformance(model.Schema):
         required=False
     )
 
-    onsale = schema.TextLine(
-        title=_(u'Onsale', default=u'Onsale'),
-        required=False
+    onsale = schema.Bool(
+        title=_(
+            u'Onsale',
+            default=u'Onsale'
+        ),
+        description=_(
+            u'Onsale',
+            default=u'Onsale'
+        ),
+        required=False,
+        default=False
     )
 
     startOnlineSalesDate = schema.TextLine(
@@ -141,6 +140,14 @@ class IPerformance(model.Schema):
         title=_(u'Percentage taken', default=u'Percentage taken'),
         required=False
     )
+
+    price = RichTextField(
+        title=_(u'Text'),
+        description=u'',
+        required=False,
+    )
+    form.widget('price', RichTextFieldWidget)
+
 
 
 @indexer(IPerformance)
