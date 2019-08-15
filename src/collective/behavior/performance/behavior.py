@@ -53,11 +53,92 @@ class IPerformance(model.Schema):
     model.fieldset(
         'performance',
         label=_(u'Performance fields', default=u'Performance fields'),
-        fields=['performance_id'],
+        fields=['performance_id', 'season', 'eventType', 'eventGenre', 'performance_title', 'subtitle', 'tags', 'facilityCode', 'performance_date',
+        'performance_start', 'performance_end', 'performanceStatus', 'onsale', 'startOnlineSalesDate', 'endOnlineSalesDate', 'statusMessage', 'percentageTaken'],
     )
 
     performance_id = schema.TextLine(
         title=_(u'Performance ID', default=u'Performance ID'),
+        required=False
+    )
+
+    season = schema.TextLine(
+        title=_(u'Season', default=u'Season'),
+        required=False
+    )
+
+    eventType = schema.TextLine(
+        title=_(u'Event type', default=u'Event type'),
+        required=False
+    )
+
+    eventGenre = schema.TextLine(
+        title=_(u'Event genre', default=u'Event genre'),
+        required=False
+    )
+
+    performance_title = schema.TextLine(
+        title=_(u'Title', default=u'Title'),
+        required=False
+    )
+
+    subtitle = schema.TextLine(
+        title=_(u'Subtitle', default=u'Subtitle'),
+        required=False
+    )
+
+    tags = schema.TextLine(
+        title=_(u'Tags', default=u'Tags'),
+        required=False
+    )
+
+    facilityCode = schema.TextLine(
+        title=_(u'Facility', default=u'Facility'),
+        required=False
+    )
+
+    performance_date = schema.TextLine(
+        title=_(u'Date', default=u'Date'),
+        required=False
+    )
+
+    performance_start = schema.TextLine(
+        title=_(u'Start', default=u'Start'),
+        required=False
+    )
+
+    performance_end = schema.TextLine(
+        title=_(u'End', default=u'End'),
+        required=False
+    )
+
+    performanceStatus = schema.TextLine(
+        title=_(u'Performance status', default=u'Performance status'),
+        required=False
+    )
+
+    onsale = schema.TextLine(
+        title=_(u'Onsale', default=u'Onsale'),
+        required=False
+    )
+
+    startOnlineSalesDate = schema.TextLine(
+        title=_(u'Start online sales date', default=u'Start online sales date'),
+        required=False
+    )
+
+    endOnlineSalesDate = schema.TextLine(
+        title=_(u'End online sales date', default=u'End online sales date'),
+        required=False
+    )
+
+    statusMessage = schema.TextLine(
+        title=_(u'Status message', default=u'Status message'),
+        required=False
+    )
+
+    percentageTaken = schema.TextLine(
+        title=_(u'Percentage taken', default=u'Percentage taken'),
         required=False
     )
 
