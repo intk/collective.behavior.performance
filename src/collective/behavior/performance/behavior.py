@@ -3,7 +3,6 @@
 
 from Products.CMFCore.utils import getToolByName
 from plone.dexterity.interfaces import IDexterityContent
-from plone.directives import form
 from zope.interface import alsoProvides
 from zope.interface import implements
 from zope.lifecycleevent import modified
@@ -18,13 +17,11 @@ from zope.component import adapter
 from plone.supermodel import model
 from zope import schema
 from collective.behavior.performance import _
-from plone.directives import dexterity, form
 from plone.indexer.decorator import indexer
 from plone.app.textfield import RichText as RichTextField
 from plone.app.z3cform.widget import RichTextFieldWidget
 from plone.autoform import directives
 from plone.app.z3cform.widget import AjaxSelectFieldWidget
-from collective import dexteritytextindexer
 #
 # DataGridFields dependencies
 #
@@ -52,8 +49,8 @@ class IPerformance(model.Schema):
     # performance fieldset
     model.fieldset(
         'performance',
-        label=_(u'Performance fields', default=u'Performance fields'),
-        fields=['performance_id', 'season', 'eventType', 'performance_title', 'subtitle', 'tags', 'facilityCode',
+        label=_(u'Sync fields', default=u'Sync fields'),
+        fields=['performance_id', 'season', 'eventType', 'performance_title', 'subtitle', 'tags', 'facility',
         'performanceStatus', 'onsale', 'startOnlineSalesDate', 'endOnlineSalesDate', 'statusMessage', 'percentageTaken', 'price'],
     )
 
@@ -64,23 +61,27 @@ class IPerformance(model.Schema):
 
     season = schema.TextLine(
         title=_(u'Season', default=u'Season'),
-        required=False
+        required=False,
     )
+    directives.mode(season="display")
 
     eventType = schema.TextLine(
         title=_(u'Event type', default=u'Event type'),
-        required=False
+        required=False,
     )
+    directives.mode(eventType="display")
 
     performance_title = schema.TextLine(
         title=_(u'Title', default=u'Title'),
-        required=False
+        required=False,
     )
+    directives.mode(performance_title="display")
 
     subtitle = schema.TextLine(
         title=_(u'Subtitle', default=u'Subtitle'),
-        required=False
+        required=False,
     )
+    directives.mode(subtitle="display")
 
     tags = schema.Tuple(
         title=_(u'Tags', default=u'Tags'),
@@ -97,16 +98,19 @@ class IPerformance(model.Schema):
         AjaxSelectFieldWidget,
         vocabulary='plone.app.vocabularies.Keywords'
     )
+    directives.mode(tags="display")
 
-    facilityCode = schema.TextLine(
+    facility = schema.TextLine(
         title=_(u'Facility', default=u'Facility'),
-        required=False
+        required=False,
     )
+    directives.mode(facility="display")
 
     performanceStatus = schema.TextLine(
         title=_(u'Performance status', default=u'Performance status'),
-        required=False
+        required=False,
     )
+    directives.mode(performanceStatus="display")
 
     onsale = schema.Bool(
         title=_(
@@ -120,34 +124,39 @@ class IPerformance(model.Schema):
         required=False,
         default=False
     )
+    directives.mode(onsale="display")
 
     startOnlineSalesDate = schema.TextLine(
         title=_(u'Start online sales date', default=u'Start online sales date'),
-        required=False
+        required=False,
     )
+    directives.mode(startOnlineSalesDate="display")
 
     endOnlineSalesDate = schema.TextLine(
         title=_(u'End online sales date', default=u'End online sales date'),
-        required=False
+        required=False,
     )
+    directives.mode(endOnlineSalesDate="display")
 
     statusMessage = schema.TextLine(
         title=_(u'Status message', default=u'Status message'),
         required=False
     )
+    directives.mode(statusMessage="display")
 
     percentageTaken = schema.TextLine(
         title=_(u'Percentage taken', default=u'Percentage taken'),
         required=False
     )
+    directives.mode(percentageTaken="display")
 
     price = RichTextField(
-        title=_(u'Text'),
+        title=_(u'Price'),
         description=u'',
-        required=False,
+        required=False
     )
-    form.widget('price', RichTextFieldWidget)
-
+    directives.widget('price', RichTextFieldWidget)
+    directives.mode(price="display")
 
 
 @indexer(IPerformance)

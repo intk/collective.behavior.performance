@@ -26,6 +26,6 @@
     title="Performance extra fields behavior"
     />
 
-  <adapter name="performance_priref" factory=".behavior.performance_priref" />
+  <adapter name="performance_id" factory=".behavior.performance_id" />
 
 </configure>
