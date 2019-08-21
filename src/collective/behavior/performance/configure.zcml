@@ -27,5 +27,6 @@
     />
 
   <adapter name="performance_id" factory=".behavior.performance_id" />
+  <adapter name="onsale" factory=".behavior.onsale" />
 
 </configure>

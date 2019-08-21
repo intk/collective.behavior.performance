@@ -50,7 +50,7 @@ class IPerformance(model.Schema):
     model.fieldset(
         'performance',
         label=_(u'Sync fields', default=u'Sync fields'),
-        fields=['performance_id', 'season', 'eventType', 'performance_title', 'subtitle', 'tags', 'facility',
+        fields=['performance_id', 'season', 'eventType', 'performance_title', 'subtitle', 'tags',
         'performanceStatus', 'onsale', 'startOnlineSalesDate', 'endOnlineSalesDate', 'statusMessage', 'percentageTaken', 'price'],
     )
 
@@ -85,10 +85,6 @@ class IPerformance(model.Schema):
 
     tags = schema.Tuple(
         title=_(u'Tags', default=u'Tags'),
-        description=_(
-            u'Tags',
-            default=u'Tags'
-        ),
         value_type=schema.TextLine(),
         required=False,
         missing_value=(),
@@ -100,12 +96,6 @@ class IPerformance(model.Schema):
     )
     directives.mode(tags="display")
 
-    facility = schema.TextLine(
-        title=_(u'Facility', default=u'Facility'),
-        required=False,
-    )
-    directives.mode(facility="display")
-
     performanceStatus = schema.TextLine(
         title=_(u'Performance status', default=u'Performance status'),
         required=False,
@@ -114,10 +104,6 @@ class IPerformance(model.Schema):
 
     onsale = schema.Bool(
         title=_(
-            u'Onsale',
-            default=u'Onsale'
-        ),
-        description=_(
             u'Onsale',
             default=u'Onsale'
         ),
@@ -175,6 +161,20 @@ def performance_id(object, **kw):
             return ""
     except:
         return ""
+
+@indexer(IPerformance)
+def onsale(object, **kw):
+    try:
+        if getattr(object, 'portal_type', None) == "Event":
+            if hasattr(object, 'onsale'):
+                value = object.onsale
+                return value
+            else:
+                return False
+        else:
+            return False
+    except:
+        return False
 
 
 
