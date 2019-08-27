@@ -13,7 +13,7 @@ long_description = (
 setup(
     name='collective.behavior.performance',
     version='0.1',
-    description="Provides fields tipically used by theater performances for dexterity content types.",
+    description="Provides fields tipically used by theater performances for Dexterity content types.",
     long_description=long_description,
     classifiers=[
         "Environment :: Web Environment",
