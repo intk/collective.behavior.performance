@@ -51,7 +51,8 @@ class IPerformance(model.Schema):
         'performance',
         label=_(u'Sync fields', default=u'Sync fields'),
         fields=['performance_id', 'season', 'eventType', 'performance_title', 'subtitle', 'tags',
-        'performanceStatus', 'onsale', 'startOnlineSalesDate', 'endOnlineSalesDate', 'statusMessage', 'percentageTaken', 'price'],
+                'performanceStatus', 'onsale', 'startOnlineSalesDate', 'endOnlineSalesDate', 'statusMessage', 'percentageTaken', 'price',
+                'performance_availability'],
     )
 
     performance_id = schema.TextLine(
@@ -143,6 +144,14 @@ class IPerformance(model.Schema):
     )
     directives.widget('price', RichTextFieldWidget)
     directives.mode(price="display")
+
+    performance_availability = RichTextField(
+        title=_(u'Performance availability'),
+        description=u'',
+        required=False
+    )
+    directives.widget('performance_availability', RichTextFieldWidget)
+    directives.mode(performance_availability="display")
 
 
 @indexer(IPerformance)
