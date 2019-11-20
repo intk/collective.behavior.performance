@@ -1,6 +1,7 @@
 <configure
   i18n_domain="collective.behavior.performance"
   xmlns:five="http://namespaces.zope.org/five"
+  xmlns:browser="http://namespaces.zope.org/browser"
   xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
   xmlns:grok="http://namespaces.zope.org/grok"
   xmlns:i18n="http://namespaces.zope.org/i18n"
@@ -9,6 +10,10 @@
 
   <include package="five.grok"/>
   <include package="plone.behavior"/>
+  
+  <include package=".syndication" />
+
+
   <grok:grok package="." />
 
   <genericsetup:registerProfile
@@ -26,7 +31,32 @@
     title="Performance extra fields behavior"
     />
 
+  <plone:behavior
+    description="Adds product api fields."
+    provides=".behavior.IProductBehavior"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    title="Adds product api fields."
+    />
+
+  <!-- actions -->
+  <!-- enable product -->
+  <browser:page
+    name="enable-product"
+    attribute="enableProduct"
+    for="*"
+    class=".actions.ProductAction"
+    permission="cmf.ModifyPortalContent"/>
+
+  <browser:page
+    name="disable-product"
+    attribute="disableProduct"
+    for="*"
+    class=".actions.ProductAction"
+    permission="cmf.ModifyPortalContent"/>
+
+
   <adapter name="performance_id" factory=".behavior.performance_id" />
   <adapter name="onsale" factory=".behavior.onsale" />
+  <adapter name="product_id" factory=".behavior.product_id" />
 
 </configure>

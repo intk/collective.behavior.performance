@@ -42,6 +42,23 @@ def safe_value(value):
     except:
         return None
 
+class IProductArrangement(Interface):
+    """Marker interface for Product."""
+
+@provider(IFormFieldProvider)
+class IProductBehavior(model.Schema):
+    model.fieldset(
+        'product_arrangement',
+        label=_(u'API fields', default=u'API fields'),
+        fields=['product_id'],
+    )
+
+    product_id = schema.TextLine(
+        title=_(u'Product ID', default=u'Product ID'),
+        required=False
+    )
+
+
 @provider(IFormFieldProvider)
 class IPerformance(model.Schema):
     """Interface for Performance behavior."""
@@ -50,9 +67,18 @@ class IPerformance(model.Schema):
     model.fieldset(
         'performance',
         label=_(u'Sync fields', default=u'Sync fields'),
-        fields=['performance_id', 'season', 'eventType', 'performance_title', 'subtitle', 'tags',
+        fields=['performance_id', 'season', 'event', 'eventType', 'performance_title', 'subtitle', 'tags',
                 'performanceStatus', 'onsale', 'startOnlineSalesDate', 'endOnlineSalesDate', 'statusMessage', 'percentageTaken', 'price',
-                'performance_availability'],
+                'performance_availability', 'arrangements'],
+    )
+
+    waiting_list = schema.Bool(
+        title=_(
+            u'Show waiting list button when this performance is sold out',
+            default=u'Show waiting list button when this performance is sold out'
+        ),
+        required=False,
+        default=True
     )
 
     performance_id = schema.TextLine(
@@ -65,6 +91,12 @@ class IPerformance(model.Schema):
         required=False,
     )
     directives.mode(season="display")
+
+    event = schema.TextLine(
+        title=_(u'Event', default=u'Event'),
+        required=False,
+    )
+    directives.mode(event="display")
 
     eventType = schema.TextLine(
         title=_(u'Event type', default=u'Event type'),
@@ -153,6 +185,14 @@ class IPerformance(model.Schema):
     directives.widget('performance_availability', RichTextFieldWidget)
     directives.mode(performance_availability="display")
 
+    arrangements = RichTextField(
+        title=_(u'Arragementen'),
+        description=u'',
+        required=False
+    )
+    directives.widget('arrangements', RichTextFieldWidget)
+    directives.mode(arrangements="display")
+
 
 @indexer(IPerformance)
 def performance_id(object, **kw):
@@ -170,6 +210,21 @@ def performance_id(object, **kw):
             return ""
     except:
         return ""
+
+@indexer(IProductArrangement)
+def product_id(object, **kw):
+    try:
+        if hasattr(object, 'product_id'):
+            value = object.product_id
+            if value:
+                return value.lower()
+            else:
+                return ""
+        else:
+            return ""
+    except:
+        return ""
+
 
 @indexer(IPerformance)
 def onsale(object, **kw):

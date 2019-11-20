@@ -9,7 +9,13 @@ from plone.autoform.interfaces import IFormFieldProvider
 from zope.interface import implementer
 from zope.component import adapter
 
+from Products.CMFPlone.interfaces.syndication import IFeed, IFeedItem
 
+class IPerformancesFeed(IFeed):
+	pass
+
+class IPerformanceFeedItem(IFeedItem):
+	pass
 
     
 
