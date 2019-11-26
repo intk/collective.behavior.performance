@@ -20,13 +20,18 @@ class PerformanceItem(BaseItem):
         self.feed = feed
         self.startdate = None
         self.enddate = None
+        self.performance_subtitle = None
 
         self.performance = IPerformance.providedBy(context)
         self.event_accessor = IEventAccessor(self.context)
+        self.performance_accessor = IPerformance(self.context)
 
         if self.event_accessor:
             self.startdate = self.event_accessor.start
             self.enddate = self.event_accessor.end
+
+        if self.performance_accessor:
+            self.performance_subtitle = self.performance_accessor.subtitle
 
     @property
     def start(self):
@@ -39,4 +44,11 @@ class PerformanceItem(BaseItem):
         date = self.enddate
         if date and date != 'None':
             return DateTime(date)
+
+    @property
+    def subtitle(self):
+        subtitle = self.performance_subtitle
+        if subtitle and subtitle != 'None':
+            return subtitle
+
 

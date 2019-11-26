@@ -41,6 +41,7 @@
     </content:encoded>
     <start tal:content="item/start/ISO8601|nothing"></start>
     <end tal:content="item/end/ISO8601|nothing"></end>
+    <subtitle tal:content="item/subtitle|nothing"></subtitle>
 
     <dc:publisher tal:content="item/publisher" />
     <dc:creator tal:condition="feed/show_about" tal:content="item/author_name">Creator</dc:creator>
